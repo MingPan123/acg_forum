@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACG二次元游戏论坛 - 游戏讨论/同人创作/攻略分享</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <a href="/" class="logo">
+                <span class="logo-icon">🎮</span>
+                <span class="logo-text">ACG社区</span>
+            </a>
+            <nav class="nav">
+                <a href="/" class="nav-link active">首页</a>
+                <a href="#" onclick="showCategory('攻略')" class="nav-link">攻略</a>
+                <a href="#" onclick="showCategory('同人创作')" class="nav-link">同人创作</a>
+                <a href="#" onclick="showCategory('游戏讨论')" class="nav-link">游戏讨论</a>
+            </nav>
+            <div class="header-actions">
+                <div id="userArea"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="search-bar">
+                <div class="search-input-wrap">
+                    <input type="text" id="searchInput" placeholder="搜索帖子标题或内容..." class="search-input">
+                    <button onclick="searchPosts()" class="search-btn">🔍</button>
+                </div>
+                <select id="categoryFilter" onchange="filterPosts()" class="category-select">
+                    <option value="">全部分类</option>
+                    <option value="攻略">攻略</option>
+                    <option value="同人创作">同人创作</option>
+                    <option value="游戏讨论">游戏讨论</option>
+                    <option value="综合">综合</option>
+                </select>
+                <select id="sortFilter" onchange="filterPosts()" class="sort-select">
+                    <option value="latest">最新发布</option>
+                    <option value="hot">热门浏览</option>
+                </select>
+                <button onclick="openPostModal()" class="btn-primary" id="newPostBtn" style="display:none;">发布帖子</button>
+            </div>
+
+            <div class="posts-container">
+                <div class="posts-header">
+                    <h2 class="section-title"><span id="currentCategory">全部帖子</span></h2>
+                    <span id="postsCount" class="posts-count"></span>
+                </div>
+                <div id="postsList" class="posts-list"><div class="loading">加载中...</div></div>
+                <div id="pagination" class="pagination"></div>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">🏆 热门标签</h3>
+                    <div class="tags-cloud">
+                        <span class="tag" onclick="searchByTag('原神')">原神</span>
+                        <span class="tag" onclick="searchByTag('崩坏')">崩坏</span>
+                        <span class="tag" onclick="searchByTag('攻略')">攻略</span>
+                        <span class="tag" onclick="searchByTag('同人')">同人</span>
+                        <span class="tag" onclick="searchByTag('星穹铁道')">星穹铁道</span>
+                        <span class="tag" onclick="searchByTag('艾尔海森')">艾尔海森</span>
+                        <span class="tag" onclick="searchByTag('甘雨')">甘雨</span>
+                        <span class="tag" onclick="searchByTag('COS')">COS</span>
+                    </div>
+                </div>
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">📌 关于论坛</h3>
+                    <p class="sidebar-text">欢迎来到ACG二次元游戏论坛！专注二次元游戏爱好者交流平台。</p>
+                    <ul class="sidebar-list">
+                        <li>🎮 游戏攻略分享</li>
+                        <li>🎨 同人创作交流</li>
+                        <li>💬 游戏讨论闲聊</li>
+                        <li>📖 剧情讨论分析</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <div id="postModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="modal-close" onclick="closePostModal()">&times;</span>
+            <div id="postDetail"></div>
+        </div>
+    </div>
+
+    <div id="createPostModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeCreatePostModal()">&times;</span>
+            <h2 class="modal-title">发布新帖子</h2>
+            <form id="createPostForm" onsubmit="createPost(event)">
+                <div class="form-group">
+                    <label class="form-label">标题</label>
+                    <input type="text" id="postTitle" class="form-input" placeholder="请输入帖子标题" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">分类</label>
+                    <select id="postCategory" class="form-input" required>
+                        <option value="攻略">攻略</option>
+                        <option value="同人创作">同人创作</option>
+                        <option value="游戏讨论">游戏讨论</option>
+                        <option value="综合">综合</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">标签（用逗号分隔）</label>
+                    <input type="text" id="postTags" class="form-input" placeholder="如：原神,攻略,养成">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">内容</label>
+                    <textarea id="postContent" class="form-textarea" placeholder="请输入帖子内容，支持Markdown格式" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeCreatePostModal()">取消</button>
+                    <button type="submit" class="btn-primary">发布</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="authModal" class="modal">
+        <div class="modal-content modal-small">
+            <span class="modal-close" onclick="closeAuthModal()">&times;</span>
+            <div id="authContent"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 ACG二次元游戏论坛 - 游戏讨论 | 同人创作 | 攻略分享</p>
+            <p class="footer-links"><a href="user.html">用户中心</a> | <a href="admin.html">管理后台</a></p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

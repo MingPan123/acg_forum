@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台 - ACG二次元游戏论坛</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🎮</span>
+                <span class="logo-text">ACG社区</span>
+            </a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">首页</a>
+            </nav>
+            <div class="header-actions">
+                <div id="userArea"></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <ul class="admin-nav">
+                <li class="admin-nav-item active" onclick="switchAdminTab('dashboard', this)">📊 数据概览</li>
+                <li class="admin-nav-item" onclick="switchAdminTab('posts', this)">📝 帖子管理</li>
+                <li class="admin-nav-item" onclick="switchAdminTab('users', this)">👥 用户管理</li>
+            </ul>
+        </aside>
+
+        <main class="admin-main">
+            <div id="dashboardTab">
+                <div class="admin-header">
+                    <h1 class="admin-title">📊 数据概览</h1>
+                </div>
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statUsers">-</div>
+                        <div class="stat-label">总用户数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statPosts">-</div>
+                        <div class="stat-label">总帖子数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statComments">-</div>
+                        <div class="stat-label">总评论数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statPostsActive">-</div>
+                        <div class="stat-label">有效帖子</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="postsTab" style="display: none;">
+                <div class="admin-header">
+                    <h1 class="admin-title">📝 帖子管理</h1>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>标题</th>
+                            <th>分类</th>
+                            <th>作者</th>
+                            <th>浏览</th>
+                            <th>点赞</th>
+                            <th>置顶</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="postsTableBody"><tr><td colspan="8" class="loading">加载中...</td></tr></tbody>
+                </table>
+            </div>
+
+            <div id="usersTab" style="display: none;">
+                <div class="admin-header">
+                    <h1 class="admin-title">👥 用户管理</h1>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>用户名</th>
+                            <th>邮箱</th>
+                            <th>角色</th>
+                            <th>帖子数</th>
+                            <th>注册时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody"><tr><td colspan="7" class="loading">加载中...</td></tr></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div id="authModal" class="modal">
+        <div class="modal-content modal-small">
+            <span class="modal-close" onclick="closeAuthModal()">&times;</span>
+            <div id="authContent"></div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

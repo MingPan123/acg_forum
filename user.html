@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - ACG二次元游戏论坛</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🎮</span>
+                <span class="logo-text">ACG社区</span>
+            </a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">首页</a>
+            </nav>
+            <div class="header-actions">
+                <div id="userArea"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-container">
+        <div class="page-header">
+            <div class="page-header-content">
+                <div class="page-avatar" id="pageAvatar">U</div>
+                <div class="page-user-info">
+                    <h1 id="pageUsername">加载中...</h1>
+                    <p class="page-bio" id="pageBio"></p>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem; margin-top: 8px;">
+                        <span id="pagePostCount">0</span> 篇帖子 | 
+                        注册于 <span id="pageCreatedAt">-</span>
+                    </p>
+                </div>
+                <div style="margin-left: auto;" id="editProfileBtn"></div>
+            </div>
+        </div>
+
+        <div class="page-tabs">
+            <div class="page-tab active" onclick="switchTab('posts', this)">我的帖子</div>
+            <div class="page-tab" onclick="switchTab('settings', this)">账号设置</div>
+        </div>
+
+        <div class="page-content">
+            <div id="postsTab">
+                <div id="myPostsList"><div class="loading">加载中...</div></div>
+            </div>
+            <div id="settingsTab" style="display: none;">
+                <h3 style="margin-bottom: 20px;">修改密码</h3>
+                <form onsubmit="changePassword(event)">
+                    <div class="form-group">
+                        <label class="form-label">当前密码</label>
+                        <input type="password" id="oldPassword" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">新密码</label>
+                        <input type="password" id="newPassword" class="form-input" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">确认新密码</label>
+                        <input type="password" id="confirmPassword" class="form-input" required>
+                    </div>
+                    <button type="submit" class="btn-primary">修改密码</button>
+                </form>
+                <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--border-color);">
+                <h3 style="margin-bottom: 20px;">个人信息</h3>
+                <form onsubmit="updateProfile(event)">
+                    <div class="form-group">
+                        <label class="form-label">邮箱</label>
+                        <input type="email" id="editEmail" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">个人简介</label>
+                        <textarea id="editBio" class="form-input" rows="3" placeholder="介绍一下自己吧~"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">保存修改</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div id="authModal" class="modal">
+        <div class="modal-content modal-small">
+            <span class="modal-close" onclick="closeAuthModal()">&times;</span>
+            <div id="authContent"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 ACG二次元游戏论坛</p>
+        </div>
+    </footer>
+
+    <script src="js/user.js"></script>
+</body>
+</html>
